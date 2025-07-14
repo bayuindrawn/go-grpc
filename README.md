@@ -88,24 +88,26 @@ Expected output:
 
 1. Using grpcurl
 
-  grpcurl -plaintext localhost:50051 employee.EmployeeService/GetEmployees
+  grpcurl -plaintext -d '{"page":1,"limit":5,"name":"Bayu"}'   localhost:50051 employee.EmployeeService/GetEmployees
 
 Sample Response:
 
-  {
-    "employees": [
-      {
+{
+    "status": 200,
+    "message": "Employees fetched successfully",
+    "data": [
+        {
         "id": 1,
         "name": "Bayu Indrawan",
-        "position": "Golang Developer"
-      },
-      {
-        "id": 2,
-        "name": "Alice",
-        "position": "QA Engineer"
-      }
-    ]
-  }
+        "position": "CEO"
+        }
+    ],
+    "pagination": {
+        "total": 1,
+        "page": 1,
+        "limit": 5
+    }
+}
 
 ## 🧪 Debug with VS Code
 
