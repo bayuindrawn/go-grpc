@@ -1,7 +1,7 @@
 package employee
 
 type Service interface {
-	GetAllEmployees() ([]*Employee, error)
+	GetEmployeesWithFilter(page, limit int, name string) ([]*Employee, error)
 }
 
 type service struct {
@@ -12,6 +12,6 @@ func NewService(repo Repository) Service {
 	return &service{repo}
 }
 
-func (s *service) GetAllEmployees() ([]*Employee, error) {
-	return s.repo.FindAll()
+func (s *service) GetEmployeesWithFilter(page, limit int, name string) ([]*Employee, error) {
+	return s.repo.FindWithFilter(page, limit, name)
 }

@@ -5,20 +5,28 @@ import (
 )
 
 type Repository interface {
-	FindAll() ([]*Employee, error)
+	FindWithFilter(page, limit int, name string) ([]*Employee, error)
 }
 
 type repository struct {
-	db *gorm.DB
+	DB *gorm.DB
 }
 
 func NewRepository(db *gorm.DB) Repository {
-	return &repository{db}
+	return &repository{DB: db}
 }
 
-func (r *repository) FindAll() ([]*Employee, error) {
+func (r *repository) FindWithFilter(page, limit int, name string) ([]*Employee, error) {
 	var employees []*Employee
-	if err := r.db.Find(&employees).Error; err != nil {
+	offset := (page - 1) * limit
+
+	query := r.DB.Model(&Employee{})
+
+	if name != "" {
+		query = query.Where("name LIKE ?", "%"+name+"%")
+	}
+
+	if err := query.Limit(limit).Offset(offset).Find(&employees).Error; err != nil {
 		return nil, err
 	}
 	return employees, nil

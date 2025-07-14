@@ -21,27 +21,29 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Message definitions
-type Empty struct {
+type GetEmployeesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Empty) Reset() {
-	*x = Empty{}
+func (x *GetEmployeesRequest) Reset() {
+	*x = GetEmployeesRequest{}
 	mi := &file_proto_employee_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Empty) String() string {
+func (x *GetEmployeesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Empty) ProtoMessage() {}
+func (*GetEmployeesRequest) ProtoMessage() {}
 
-func (x *Empty) ProtoReflect() protoreflect.Message {
+func (x *GetEmployeesRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_employee_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -53,9 +55,30 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
-func (*Empty) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetEmployeesRequest.ProtoReflect.Descriptor instead.
+func (*GetEmployeesRequest) Descriptor() ([]byte, []int) {
 	return file_proto_employee_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GetEmployeesRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *GetEmployeesRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *GetEmployeesRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
 }
 
 type Employee struct {
@@ -118,27 +141,29 @@ func (x *Employee) GetPosition() string {
 	return ""
 }
 
-type EmployeeList struct {
+type GetEmployeesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Employees     []*Employee            `protobuf:"bytes,1,rep,name=employees,proto3" json:"employees,omitempty"`
+	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Data          []*Employee            `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *EmployeeList) Reset() {
-	*x = EmployeeList{}
+func (x *GetEmployeesResponse) Reset() {
+	*x = GetEmployeesResponse{}
 	mi := &file_proto_employee_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *EmployeeList) String() string {
+func (x *GetEmployeesResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*EmployeeList) ProtoMessage() {}
+func (*GetEmployeesResponse) ProtoMessage() {}
 
-func (x *EmployeeList) ProtoReflect() protoreflect.Message {
+func (x *GetEmployeesResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_employee_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -150,14 +175,28 @@ func (x *EmployeeList) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use EmployeeList.ProtoReflect.Descriptor instead.
-func (*EmployeeList) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetEmployeesResponse.ProtoReflect.Descriptor instead.
+func (*GetEmployeesResponse) Descriptor() ([]byte, []int) {
 	return file_proto_employee_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *EmployeeList) GetEmployees() []*Employee {
+func (x *GetEmployeesResponse) GetStatus() int32 {
 	if x != nil {
-		return x.Employees
+		return x.Status
+	}
+	return 0
+}
+
+func (x *GetEmployeesResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *GetEmployeesResponse) GetData() []*Employee {
+	if x != nil {
+		return x.Data
 	}
 	return nil
 }
@@ -166,16 +205,21 @@ var File_proto_employee_proto protoreflect.FileDescriptor
 
 const file_proto_employee_proto_rawDesc = "" +
 	"\n" +
-	"\x14proto/employee.proto\x12\bemployee\"\a\n" +
-	"\x05Empty\"J\n" +
+	"\x14proto/employee.proto\x12\bemployee\"S\n" +
+	"\x13GetEmployeesRequest\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\"J\n" +
 	"\bEmployee\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1a\n" +
-	"\bposition\x18\x03 \x01(\tR\bposition\"@\n" +
-	"\fEmployeeList\x120\n" +
-	"\temployees\x18\x01 \x03(\v2\x12.employee.EmployeeR\temployees2J\n" +
-	"\x0fEmployeeService\x127\n" +
-	"\fGetEmployees\x12\x0f.employee.Empty\x1a\x16.employee.EmployeeListB\x16Z\x14proto/employee;protob\x06proto3"
+	"\bposition\x18\x03 \x01(\tR\bposition\"p\n" +
+	"\x14GetEmployeesResponse\x12\x16\n" +
+	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12&\n" +
+	"\x04data\x18\x03 \x03(\v2\x12.employee.EmployeeR\x04data2`\n" +
+	"\x0fEmployeeService\x12M\n" +
+	"\fGetEmployees\x12\x1d.employee.GetEmployeesRequest\x1a\x1e.employee.GetEmployeesResponseB\x16Z\x14proto/employee;protob\x06proto3"
 
 var (
 	file_proto_employee_proto_rawDescOnce sync.Once
@@ -191,14 +235,14 @@ func file_proto_employee_proto_rawDescGZIP() []byte {
 
 var file_proto_employee_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_proto_employee_proto_goTypes = []any{
-	(*Empty)(nil),        // 0: employee.Empty
-	(*Employee)(nil),     // 1: employee.Employee
-	(*EmployeeList)(nil), // 2: employee.EmployeeList
+	(*GetEmployeesRequest)(nil),  // 0: employee.GetEmployeesRequest
+	(*Employee)(nil),             // 1: employee.Employee
+	(*GetEmployeesResponse)(nil), // 2: employee.GetEmployeesResponse
 }
 var file_proto_employee_proto_depIdxs = []int32{
-	1, // 0: employee.EmployeeList.employees:type_name -> employee.Employee
-	0, // 1: employee.EmployeeService.GetEmployees:input_type -> employee.Empty
-	2, // 2: employee.EmployeeService.GetEmployees:output_type -> employee.EmployeeList
+	1, // 0: employee.GetEmployeesResponse.data:type_name -> employee.Employee
+	0, // 1: employee.EmployeeService.GetEmployees:input_type -> employee.GetEmployeesRequest
+	2, // 2: employee.EmployeeService.GetEmployees:output_type -> employee.GetEmployeesResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

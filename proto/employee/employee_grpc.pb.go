@@ -25,10 +25,8 @@ const (
 // EmployeeServiceClient is the client API for EmployeeService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// Service definition
 type EmployeeServiceClient interface {
-	GetEmployees(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*EmployeeList, error)
+	GetEmployees(ctx context.Context, in *GetEmployeesRequest, opts ...grpc.CallOption) (*GetEmployeesResponse, error)
 }
 
 type employeeServiceClient struct {
@@ -39,9 +37,9 @@ func NewEmployeeServiceClient(cc grpc.ClientConnInterface) EmployeeServiceClient
 	return &employeeServiceClient{cc}
 }
 
-func (c *employeeServiceClient) GetEmployees(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*EmployeeList, error) {
+func (c *employeeServiceClient) GetEmployees(ctx context.Context, in *GetEmployeesRequest, opts ...grpc.CallOption) (*GetEmployeesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(EmployeeList)
+	out := new(GetEmployeesResponse)
 	err := c.cc.Invoke(ctx, EmployeeService_GetEmployees_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -52,10 +50,8 @@ func (c *employeeServiceClient) GetEmployees(ctx context.Context, in *Empty, opt
 // EmployeeServiceServer is the server API for EmployeeService service.
 // All implementations must embed UnimplementedEmployeeServiceServer
 // for forward compatibility.
-//
-// Service definition
 type EmployeeServiceServer interface {
-	GetEmployees(context.Context, *Empty) (*EmployeeList, error)
+	GetEmployees(context.Context, *GetEmployeesRequest) (*GetEmployeesResponse, error)
 	mustEmbedUnimplementedEmployeeServiceServer()
 }
 
@@ -66,7 +62,7 @@ type EmployeeServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedEmployeeServiceServer struct{}
 
-func (UnimplementedEmployeeServiceServer) GetEmployees(context.Context, *Empty) (*EmployeeList, error) {
+func (UnimplementedEmployeeServiceServer) GetEmployees(context.Context, *GetEmployeesRequest) (*GetEmployeesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEmployees not implemented")
 }
 func (UnimplementedEmployeeServiceServer) mustEmbedUnimplementedEmployeeServiceServer() {}
@@ -91,7 +87,7 @@ func RegisterEmployeeServiceServer(s grpc.ServiceRegistrar, srv EmployeeServiceS
 }
 
 func _EmployeeService_GetEmployees_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Empty)
+	in := new(GetEmployeesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -103,7 +99,7 @@ func _EmployeeService_GetEmployees_Handler(srv interface{}, ctx context.Context,
 		FullMethod: EmployeeService_GetEmployees_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EmployeeServiceServer).GetEmployees(ctx, req.(*Empty))
+		return srv.(EmployeeServiceServer).GetEmployees(ctx, req.(*GetEmployeesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

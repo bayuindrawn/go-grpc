@@ -14,10 +14,25 @@ func NewHandler(service Service) *Handler {
 	return &Handler{service: service}
 }
 
-func (h *Handler) GetEmployees(ctx context.Context, _ *pb.Empty) (*pb.EmployeeList, error) {
-	emps, err := h.service.GetAllEmployees()
+func (h *Handler) GetEmployees(ctx context.Context, req *pb.GetEmployeesRequest) (*pb.GetEmployeesResponse, error) {
+	page := int(req.GetPage())
+	limit := int(req.GetLimit())
+	name := req.GetName()
+
+	if page <= 0 {
+		page = 1
+	}
+	if limit <= 0 {
+		limit = 10
+	}
+
+	emps, err := h.service.GetEmployeesWithFilter(page, limit, name)
 	if err != nil {
-		return nil, err
+		return &pb.GetEmployeesResponse{
+			Status:  500,
+			Message: "Failed to fetch employees",
+			Data:    nil,
+		}, nil
 	}
 
 	var res []*pb.Employee
@@ -29,5 +44,9 @@ func (h *Handler) GetEmployees(ctx context.Context, _ *pb.Empty) (*pb.EmployeeLi
 		})
 	}
 
-	return &pb.EmployeeList{Employees: res}, nil
+	return &pb.GetEmployeesResponse{
+		Status:  200,
+		Message: "Employees fetched successfully",
+		Data:    res,
+	}, nil
 }
