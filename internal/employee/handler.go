@@ -26,7 +26,7 @@ func (h *Handler) GetEmployees(ctx context.Context, req *pb.GetEmployeesRequest)
 		limit = 10
 	}
 
-	emps, total, err := h.service.GetEmployeesWithFilter(page, limit, name)
+	emps, total, err := h.service.GetEmployeesWithFilter(ctx, page, limit, name)
 	if err != nil {
 		return &pb.GetEmployeesResponse{
 			Status:  500,
