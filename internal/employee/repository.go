@@ -6,6 +6,7 @@ import (
 
 type Repository interface {
 	FindWithFilter(page, limit int, name string) ([]*Employee, error)
+	CountWithFilter(name string) (int64, error)
 }
 
 type repository struct {
@@ -26,8 +27,16 @@ func (r *repository) FindWithFilter(page, limit int, name string) ([]*Employee, 
 		query = query.Where("name LIKE ?", "%"+name+"%")
 	}
 
-	if err := query.Limit(limit).Offset(offset).Find(&employees).Error; err != nil {
-		return nil, err
+	err := query.Limit(limit).Offset(offset).Find(&employees).Error
+	return employees, err
+}
+
+func (r *repository) CountWithFilter(name string) (int64, error) {
+	var count int64
+	query := r.DB.Model(&Employee{})
+	if name != "" {
+		query = query.Where("name LIKE ?", "%"+name+"%")
 	}
-	return employees, nil
+	err := query.Count(&count).Error
+	return count, err
 }

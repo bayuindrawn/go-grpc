@@ -20,8 +20,15 @@ message Employee {
   string position = 3;
 }
 
+message Pagination {
+  int32 total = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
 message GetEmployeesResponse {
   int32 status = 1;
   string message = 2;
   repeated Employee data = 3;
+  Pagination pagination = 4;
 }

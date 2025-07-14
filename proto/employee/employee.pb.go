@@ -141,18 +141,79 @@ func (x *Employee) GetPosition() string {
 	return ""
 }
 
+type Pagination struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Total         int32                  `protobuf:"varint,1,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
+	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Pagination) Reset() {
+	*x = Pagination{}
+	mi := &file_proto_employee_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Pagination) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Pagination) ProtoMessage() {}
+
+func (x *Pagination) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_employee_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Pagination.ProtoReflect.Descriptor instead.
+func (*Pagination) Descriptor() ([]byte, []int) {
+	return file_proto_employee_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Pagination) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *Pagination) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *Pagination) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
 type GetEmployeesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Status        int32                  `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	Data          []*Employee            `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty"`
+	Pagination    *Pagination            `protobuf:"bytes,4,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetEmployeesResponse) Reset() {
 	*x = GetEmployeesResponse{}
-	mi := &file_proto_employee_proto_msgTypes[2]
+	mi := &file_proto_employee_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -164,7 +225,7 @@ func (x *GetEmployeesResponse) String() string {
 func (*GetEmployeesResponse) ProtoMessage() {}
 
 func (x *GetEmployeesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_employee_proto_msgTypes[2]
+	mi := &file_proto_employee_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -177,7 +238,7 @@ func (x *GetEmployeesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetEmployeesResponse.ProtoReflect.Descriptor instead.
 func (*GetEmployeesResponse) Descriptor() ([]byte, []int) {
-	return file_proto_employee_proto_rawDescGZIP(), []int{2}
+	return file_proto_employee_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetEmployeesResponse) GetStatus() int32 {
@@ -201,6 +262,13 @@ func (x *GetEmployeesResponse) GetData() []*Employee {
 	return nil
 }
 
+func (x *GetEmployeesResponse) GetPagination() *Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 var File_proto_employee_proto protoreflect.FileDescriptor
 
 const file_proto_employee_proto_rawDesc = "" +
@@ -213,11 +281,19 @@ const file_proto_employee_proto_rawDesc = "" +
 	"\bEmployee\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1a\n" +
-	"\bposition\x18\x03 \x01(\tR\bposition\"p\n" +
+	"\bposition\x18\x03 \x01(\tR\bposition\"L\n" +
+	"\n" +
+	"Pagination\x12\x14\n" +
+	"\x05total\x18\x01 \x01(\x05R\x05total\x12\x12\n" +
+	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x14\n" +
+	"\x05limit\x18\x03 \x01(\x05R\x05limit\"\xa6\x01\n" +
 	"\x14GetEmployeesResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\x05R\x06status\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\x12&\n" +
-	"\x04data\x18\x03 \x03(\v2\x12.employee.EmployeeR\x04data2`\n" +
+	"\x04data\x18\x03 \x03(\v2\x12.employee.EmployeeR\x04data\x124\n" +
+	"\n" +
+	"pagination\x18\x04 \x01(\v2\x14.employee.PaginationR\n" +
+	"pagination2`\n" +
 	"\x0fEmployeeService\x12M\n" +
 	"\fGetEmployees\x12\x1d.employee.GetEmployeesRequest\x1a\x1e.employee.GetEmployeesResponseB\x16Z\x14proto/employee;protob\x06proto3"
 
@@ -233,21 +309,23 @@ func file_proto_employee_proto_rawDescGZIP() []byte {
 	return file_proto_employee_proto_rawDescData
 }
 
-var file_proto_employee_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_proto_employee_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_proto_employee_proto_goTypes = []any{
 	(*GetEmployeesRequest)(nil),  // 0: employee.GetEmployeesRequest
 	(*Employee)(nil),             // 1: employee.Employee
-	(*GetEmployeesResponse)(nil), // 2: employee.GetEmployeesResponse
+	(*Pagination)(nil),           // 2: employee.Pagination
+	(*GetEmployeesResponse)(nil), // 3: employee.GetEmployeesResponse
 }
 var file_proto_employee_proto_depIdxs = []int32{
 	1, // 0: employee.GetEmployeesResponse.data:type_name -> employee.Employee
-	0, // 1: employee.EmployeeService.GetEmployees:input_type -> employee.GetEmployeesRequest
-	2, // 2: employee.EmployeeService.GetEmployees:output_type -> employee.GetEmployeesResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: employee.GetEmployeesResponse.pagination:type_name -> employee.Pagination
+	0, // 2: employee.EmployeeService.GetEmployees:input_type -> employee.GetEmployeesRequest
+	3, // 3: employee.EmployeeService.GetEmployees:output_type -> employee.GetEmployeesResponse
+	3, // [3:4] is the sub-list for method output_type
+	2, // [2:3] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_proto_employee_proto_init() }
@@ -261,7 +339,7 @@ func file_proto_employee_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_employee_proto_rawDesc), len(file_proto_employee_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

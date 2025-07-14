@@ -26,12 +26,17 @@ func (h *Handler) GetEmployees(ctx context.Context, req *pb.GetEmployeesRequest)
 		limit = 10
 	}
 
-	emps, err := h.service.GetEmployeesWithFilter(page, limit, name)
+	emps, total, err := h.service.GetEmployeesWithFilter(page, limit, name)
 	if err != nil {
 		return &pb.GetEmployeesResponse{
 			Status:  500,
 			Message: "Failed to fetch employees",
 			Data:    nil,
+			Pagination: &pb.Pagination{
+				Total: 0,
+				Page:  int32(page),
+				Limit: int32(limit),
+			},
 		}, nil
 	}
 
@@ -48,5 +53,10 @@ func (h *Handler) GetEmployees(ctx context.Context, req *pb.GetEmployeesRequest)
 		Status:  200,
 		Message: "Employees fetched successfully",
 		Data:    res,
+		Pagination: &pb.Pagination{
+			Total: int32(total),
+			Page:  int32(page),
+			Limit: int32(limit),
+		},
 	}, nil
 }
