@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package employee;
+
+option go_package = "proto/employee;proto";
+
+// Service definition
+service EmployeeService {
+  rpc GetEmployees (Empty) returns (EmployeeList);
+}
+
+// Message definitions
+message Empty {}
+
+message Employee {
+  int32 id = 1;
+  string name = 2;
+  string position = 3;
+}
+
+message EmployeeList {
+  repeated Employee employees = 1;
+}
